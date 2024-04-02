@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{/fragments/head.html :: head }"></head>
+
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+      <img class="animation__shake" src="/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+    </div>
+
+    <!-- Navbar -->
+    <div th:insert="~{/fragments/navbar :: navbar }"></div>
+    <!-- /.navbar -->
+    <div th:insert="~{/fragments/sidebar :: sidebar }"></div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid"><!-- /.row -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Responsive Hover Table</h3>
+
+                  <div class="card-tools">
+                    <form action="" th:action="@{/student}" method="get">
+                      <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="hidden" name="page" th:value="${param.page}">
+                        <input type="hidden" name="size" th:value="${size}">
+                        <input type="text" name="name" class="form-control float-right" th:value="${param.name}"
+                          placeholder="Name">
+                        <input type="number" name="age" class="form-control float-right" placeholder="Age"
+                          th:value="${param.age}">
+
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="student:${students}">
+                        <td th:text="${student.id}"></td>
+                        <td th:text="${student.name}"></td>
+                        <td th:text="${student.age}"></td>
+                        <td>
+                          <a th:href="@{/student/delete/{id}(id = ${student.id})}"
+                            onclick="return confirm('Are you sure?');">Xoa</a>
+                          <a th:href="@{/student/edit/{id}(id = ${student.id})}">Sua</a>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+                <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right">
+                    <!-- <li class="page-item"><a class="page-link" href="#"></a></li> -->
+                    <li class="page-item"><a class="page-link" th:href="@{/student(page = 0, size = ${size})}">First</a>
+                    </li>
+                    <li th:each="i:${#numbers.sequence(pageBegin, pageEnd)}" class="page-item"><a class="page-link"
+                        th:text="${i}"
+                        th:href="@{/student(page = ${i - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}"></a>
+                    </li>
+                    <!-- <li class="page-item"><a class="page-link" href="#">&raquo;</a></li> -->
+                    <li class="page-item"><a class="page-link"
+                        th:href="@{/student(page = ${totalPages - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}">Last</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
+      </div>
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <div th:insert="~{/fragments/script.html :: script }"></div>
+
+  <!-- AdminLTE for demo purposes -->
+  <!-- <script src="dist/js/demo.js"></script> -->
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <!-- <script src="dist/js/pages/dashboard.js"></script> -->
+</body>
+
+</html>
