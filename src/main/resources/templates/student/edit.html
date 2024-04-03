@@ -38,11 +38,15 @@
                       <label for="name">Name</label>
                       <input type="text" name="name" class="form-control" id="name" placeholder="Enter name"
                         th:value="${student.name}">
+                      <span th:if="${error != null && error.hasFieldErrors('name')}"
+                        th:text="${error.getFieldError('name').getDefaultMessage()}"></span>
                     </div>
                     <div class="form-group">
                       <label for="age">Age</label>
                       <input type="number" name="age" class="form-control" id="age" placeholder="Age"
                         th:value="${student.age}">
+                      <span th:if="${error != null && error.hasFieldErrors('age')}"
+                        th:text="${error.getFieldError('age').getDefaultMessage()}"></span>
                     </div>
                   </div>
                   <!-- /.card-body -->

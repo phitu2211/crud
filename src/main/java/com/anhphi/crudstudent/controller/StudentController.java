@@ -17,6 +17,9 @@ import com.anhphi.crudstudent.dto.PaginateRequest;
 import com.anhphi.crudstudent.dto.StudentDto;
 import com.anhphi.crudstudent.model.Student;
 import com.anhphi.crudstudent.service.StudentService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -24,11 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class StudentController {
   @Autowired
   private StudentService studentService;
-
-  @ModelAttribute("uriBuilder")
-  public ServletUriComponentsBuilder getUriBuilder() {
-    return ServletUriComponentsBuilder.fromCurrentRequest();
-  }
 
   @GetMapping
   public String list(
@@ -60,7 +58,7 @@ public class StudentController {
   }
 
   @PostMapping("/create")
-  public String create(@ModelAttribute StudentDto dto) {
+  public String create(@Valid @ModelAttribute StudentDto dto) {
     studentService.getStudentRepo().save(dto.toStudent());
     return "redirect:/student";
   }
@@ -82,7 +80,7 @@ public class StudentController {
   }
 
   @PostMapping("/edit/{id}")
-  public String update(@PathVariable("id") Long id, @ModelAttribute StudentDto dto, Model model) {
+  public String update(@PathVariable("id") Long id, @Valid @ModelAttribute StudentDto dto, Model model) {
     if (studentService.getStudentRepo().findById(id).isPresent()) {
       Student student = studentService.getStudentRepo().findById(id).get();
       student.setAge(dto.getAge());

@@ -2,7 +2,12 @@ package com.anhphi.crudstudent.dto;
 
 import com.anhphi.crudstudent.model.Student;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+
 public class StudentDto {
+  @NotEmpty
   private String name;
 
   public String getName() {
@@ -14,6 +19,9 @@ public class StudentDto {
     return this;
   }
 
+  @NotEmpty
+  @Min(18)
+  @Max(100)
   private String age;
 
   public int getAge() {
