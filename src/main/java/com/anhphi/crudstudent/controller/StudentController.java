@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.anhphi.crudstudent.dto.PaginateRequest;
@@ -58,16 +59,18 @@ public class StudentController {
   }
 
   @PostMapping("/create")
-  public String create(@Valid @ModelAttribute StudentDto dto) {
+  public String create(@Valid @ModelAttribute StudentDto dto, RedirectAttributes redirectAttributes) {
     studentService.getStudentRepo().save(dto.toStudent());
+    redirectAttributes.addFlashAttribute("msg", "Tạo mới sinh viên thành công");
     return "redirect:/student";
   }
 
   @GetMapping("/delete/{id}")
-  public String delete(@PathVariable("id") Long id) {
+  public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
     if (studentService.getStudentRepo().findById(id).isPresent()) {
       studentService.getStudentRepo().deleteById(id);
     }
+    redirectAttributes.addFlashAttribute("msg", "Xóa sinh viên thành công");
 
     return "redirect:/student";
   }
@@ -80,13 +83,16 @@ public class StudentController {
   }
 
   @PostMapping("/edit/{id}")
-  public String update(@PathVariable("id") Long id, @Valid @ModelAttribute StudentDto dto, Model model) {
+  public String update(@PathVariable("id") Long id, @Valid @ModelAttribute StudentDto dto, Model model,
+      RedirectAttributes redirectAttributes) {
     if (studentService.getStudentRepo().findById(id).isPresent()) {
       Student student = studentService.getStudentRepo().findById(id).get();
       student.setAge(dto.getAge());
       student.setName(dto.getName());
       studentService.getStudentRepo().save(student);
     }
+    redirectAttributes.addFlashAttribute("msg", "Sửa sinh viên thành công");
+    // redirectAttributes.addFlashAttribute("status", "error");
 
     return "redirect:/student";
   }

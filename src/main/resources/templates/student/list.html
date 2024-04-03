@@ -27,7 +27,6 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Responsive Hover Table</h3>
-
                   <div class="card-tools">
                     <form action="" th:action="@{/student}" method="get">
                       <div class="input-group input-group-sm" style="width: 150px;">
@@ -141,7 +140,21 @@
   <!-- ./wrapper -->
 
   <div th:insert="~{/fragments/script.html :: script }"></div>
+  <script th:inline="javascript">
+    var msg = [[${ msg }]];
+    if (msg != null) {
+      var status = [[${ status }]];
+      switch (status) {
+        case 'error':
+          toastr.error(msg);
+          break;
+        default:
+          toastr.success(msg);
+          break;
+      }
+    }
 
+  </script>
   <!-- AdminLTE for demo purposes -->
   <!-- <script src="dist/js/demo.js"></script> -->
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
