@@ -33,6 +33,8 @@
                       <div class="input-group input-group-sm" style="width: 150px;">
                         <input type="hidden" name="page" th:value="${param.page}">
                         <input type="hidden" name="size" th:value="${size}">
+                        <input type="hidden" name="sortBy" th:value="${param.sortBy}">
+                        <input type="hidden" name="direction" th:value="${direction}">
                         <input type="text" name="name" class="form-control float-right" th:value="${param.name}"
                           placeholder="Name">
                         <input type="number" name="age" class="form-control float-right" placeholder="Age"
@@ -52,9 +54,30 @@
                   <table class="table table-hover text-nowrap">
                     <thead>
                       <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Age</th>
+                        <th>
+                          <!-- <a
+                            th:href="@{/student(sortBy='id', direction=${reverseDirection},page = ${param.page}, size = ${param.size}, name = ${param.name}, age = ${param.age})}">
+                            ID</a> -->
+                          <a
+                            th:href="${uriBuilder.replaceQueryParam('sortBy', 'id').replaceQueryParam('direction', reverseDirection).toUriString()}">
+                            ID</a>
+                        </th>
+                        <th>
+                          <!-- <a
+                            th:href="@{/student(sortBy='name', direction=${reverseDirection},page = ${param.page}, size = ${param.size}, name = ${param.name}, age = ${param.age})}">
+                            Name</a> -->
+                          <a
+                            th:href="${uriBuilder.replaceQueryParam('sortBy', 'name').replaceQueryParam('direction', reverseDirection).toUriString()}">
+                            Name</a>
+                        </th>
+                        <th>
+                          <!-- <a
+                            th:href="@{/student(sortBy='age', direction=${reverseDirection},page = ${param.page}, size = ${param.size}, name = ${param.name}, age = ${param.age})}">
+                            Age</a> -->
+                          <a
+                            th:href="${uriBuilder.replaceQueryParam('sortBy', 'age').replaceQueryParam('direction', reverseDirection).toUriString()}">
+                            Age</a>
+                        </th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -78,9 +101,11 @@
                     <!-- <li class="page-item"><a class="page-link" href="#"></a></li> -->
                     <li class="page-item"><a class="page-link" th:href="@{/student(page = 0, size = ${size})}">First</a>
                     </li>
-                    <li th:each="i:${#numbers.sequence(pageBegin, pageEnd)}" class="page-item"><a class="page-link"
-                        th:text="${i}"
-                        th:href="@{/student(page = ${i - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}"></a>
+                    <li th:each="i:${#numbers.sequence(pageBegin, pageEnd)}" class="page-item">
+                      <!-- <a class="page-link" th:text="${i}"
+                        th:href="@{/student(sortBy=${param.sort}, direction=${direction}, page = ${i - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}"></a> -->
+                      <a class="page-link" th:text="${i}"
+                        th:href="${uriBuilder.replaceQueryParam('page', i - 1).toUriString()}"></a>
                     </li>
                     <!-- <li class="page-item"><a class="page-link" href="#">&raquo;</a></li> -->
                     <li class="page-item"><a class="page-link"

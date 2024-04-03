@@ -3,6 +3,7 @@ package com.anhphi.crudstudent.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.anhphi.crudstudent.dto.PaginateRequest;
@@ -22,6 +23,7 @@ public class StudentService {
 
   public Page<Student> findAll(StudentDto dto, PaginateRequest paginateRequest) {
     return studentRepo.findAll(new StudentSpec(dto),
-        PageRequest.of(paginateRequest.getPage(), paginateRequest.getSize()));
+        PageRequest.of(paginateRequest.getPage(), paginateRequest.getSize())
+            .withSort(Sort.by(paginateRequest.getDirection(), paginateRequest.getSortBy())));
   }
 }

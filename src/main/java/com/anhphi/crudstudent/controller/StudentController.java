@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.anhphi.crudstudent.dto.PaginateRequest;
 import com.anhphi.crudstudent.dto.StudentDto;
@@ -24,18 +25,26 @@ public class StudentController {
   @Autowired
   private StudentService studentService;
 
+  @ModelAttribute("uriBuilder")
+  public ServletUriComponentsBuilder getUriBuilder() {
+    return ServletUriComponentsBuilder.fromCurrentRequest();
+  }
+
   @GetMapping
   public String list(
       @RequestParam(name = "page", required = false, defaultValue = "0") int page,
       @RequestParam(name = "size", required = false, defaultValue = "5") int size,
       @RequestParam(name = "name", required = false) String name,
       @RequestParam(name = "age", required = false) String age,
+      @RequestParam(name = "sortBy", required = false, defaultValue = "createdAt") String sortBy,
+      @RequestParam(name = "direction", required = false, defaultValue = "asc") String direction,
       Model model) {
-    // new StudentDto()
     Page<Student> students = studentService.findAll(
         new StudentDto().setAge(age).setName(name),
-        new PaginateRequest(page, size));
+        new PaginateRequest(page, size).setDirection(direction).setSortBy(sortBy));
 
+    model.addAttribute("direction", direction);
+    model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
     model.addAttribute("pageBegin", Math.max(1, page));
     model.addAttribute("pageEnd", Math.min(page + 2, students.getTotalPages()));
     model.addAttribute("totalPages", students.getTotalPages());
