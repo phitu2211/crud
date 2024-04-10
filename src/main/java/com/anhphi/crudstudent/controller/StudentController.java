@@ -1,5 +1,6 @@
 package com.anhphi.crudstudent.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class StudentController {
         new PaginateRequest(page, size).setDirection(direction).setSortBy(sortBy));
 
     model.addAttribute("direction", direction);
+    model.addAttribute("sortBy", sortBy);
     model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
     model.addAttribute("pageBegin", Math.max(1, page));
     model.addAttribute("pageEnd", Math.min(page + 2, students.getTotalPages()));
@@ -85,6 +87,8 @@ public class StudentController {
   @PostMapping("/edit/{id}")
   public String update(@PathVariable("id") Long id, @Valid @ModelAttribute StudentDto dto, Model model,
       RedirectAttributes redirectAttributes) {
+    // LocalDateTime startDate = dto.getStartDate();
+    // LocalDateTime endDate = dto.getEndDate();
     if (studentService.getStudentRepo().findById(id).isPresent()) {
       Student student = studentService.getStudentRepo().findById(id).get();
       student.setAge(dto.getAge());

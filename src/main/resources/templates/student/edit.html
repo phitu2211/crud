@@ -35,6 +35,16 @@
                 <form id="quickForm" th:action="@{/student/edit/{id}(id = ${student.id})}" method="post">
                   <div class="card-body">
                     <div class="form-group">
+                      <label>Date and time range:</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="far fa-clock"></i></span>
+                        </div>
+                        <input type="text" name="date" class="form-control float-right" id="reservationtime">
+                      </div>
+                      <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
                       <label for="name">Name</label>
                       <input type="text" name="name" class="form-control" id="name" placeholder="Enter name"
                         th:value="${student.name}">
@@ -92,6 +102,16 @@
   <!-- <script src="dist/js/demo.js"></script> -->
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <!-- <script src="dist/js/pages/dashboard.js"></script> -->
+  <script>
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'yyyy-MM-DDThh:mm:ss',
+        separator: '@'
+      }
+    })
+  </script>
 </body>
 
 </html>

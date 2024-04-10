@@ -98,17 +98,15 @@
                 <div class="card-footer clearfix">
                   <ul class="pagination pagination-sm m-0 float-right">
                     <!-- <li class="page-item"><a class="page-link" href="#"></a></li> -->
-                    <li class="page-item"><a class="page-link" th:href="@{/student(page = 0, size = ${size})}">First</a>
-                    </li>
+                    <!-- <li class="page-item"><a class="page-link" th:href="@{/student(page = 0, size = ${size})}">First</a>
+                    </li> -->
                     <li th:each="i:${#numbers.sequence(pageBegin, pageEnd)}" class="page-item">
-                      <!-- <a class="page-link" th:text="${i}"
-                        th:href="@{/student(sortBy=${param.sort}, direction=${direction}, page = ${i - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}"></a> -->
                       <a class="page-link" th:text="${i}"
-                        th:href="${uriBuilder.replaceQueryParam('page', i - 1).toUriString()}"></a>
+                        th:href="${uriBuilder.replaceQueryParam('page', i - 1).replaceQueryParam('direction', direction).replaceQueryParam('sortBy', sortBy).toUriString()}"></a>
                     </li>
                     <!-- <li class="page-item"><a class="page-link" href="#">&raquo;</a></li> -->
-                    <li class="page-item"><a class="page-link"
-                        th:href="@{/student(page = ${totalPages - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}">Last</a>
+                    <!-- <li class="page-item"><a class="page-link"
+                        th:href="@{/student(page = ${totalPages - 1}, size = ${size}, name = ${param.name}, age = ${param.age})}">Last</a> -->
                     </li>
                   </ul>
                 </div>
